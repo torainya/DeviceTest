@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设备仿真</title>
+    <link rel="stylesheet" type="text/css" href="css/origin.css"/>
+
+</head>
+<body id="body">
+<div id="box1">
+    <p id="temp">温度计</p>
+</div>
+<button>温度计</button>
+<button>分贝计</button>
+
+<div id="box2">
+    <p id="sound">分贝计</p>
+</div>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    var box1 = document.getElementById("box1");
+    var box2 = document.getElementById("box2");
+    var temp = document.getElementById("temp");
+    var sound = document.getElementById("sound");
+
+    setInterval(function () {
+        temp.innerText = "温度计：" + parseInt(20 + Math.random() * 8) + "℃"
+    }, 1000);
+    setInterval(function () {
+        sound.innerText = "分贝计：" + parseInt(Math.random() * 100) + "B";
+    }, 1000);
+
+    drag(box1);
+    drag(box2);
+
+    function drag(obj) {
+        var move = false;
+        var obj = obj;
+        obj.onmousedown = function (event) {
+
+            if (obj.setCapture) {
+                obj.setCapture();
+            }
+            event = event || window.event
+            var ol = event.clientX - obj.offsetLeft;
+            var ot = event.clientY - obj.offsetTop;
+            document.onmousemove = function (event) {
+                move = true;
+                event = event || window.event
+                var x = event.clientX - ol;
+                var y = event.clientY - ot;
+                obj.style.left = x + "px";
+                obj.style.top = y + "px";
+            }
+            document.onmouseup = function () {
+                if (move == false)
+                    if (obj.style.backgroundColor == "lime") {
+
+                        $.ajax({
+                            url: "switch",
+                            type: "post",
+                            data: {state: 0},
+                            // data: JSON.stringify(data),
+                            // contentType:"application/json",
+                            success: function (data) {
+                                obj.style.backgroundColor = "red";
+                                $(obj).children(".value").hide();
+                            },
+                            error: function (e) {
+                                alert("操作失败");
+                            }
+                        })
+                    } else {
+                        $.ajax({
+                            url: "switch",
+                            type: "post",
+                            data: {state: 1},
+                            // data: JSON.stringify(data),
+                            // contentType:"application/json",
+                            success: function (data) {
+                                obj.style.backgroundColor = "lime";
+                                $(obj).children(".value").show();
+                            },
+                            error: function (e) {
+                                alert("操作失败");
+                            }
+                        })
+
+
+                    }
+                // 鼠标移除和释放按下操作时,取消以下事件
+                document.onmousemove = null;
+                document.onmouseup = null;
+                move = false;
+            }
+
+            return false;
+        }
+
+    }
+</script>
+<script>
+    function CreateDevice(deviceName) {
+        var obj = document.createElement("div");//创建一个标签
+        obj.className = "box";
+        var p = document.createElement("p");
+        p.innerText = deviceName;
+        obj.appendChild(p);
+        var p = document.createElement("p");
+        p.className = "value";
+        obj.appendChild(p);
+        setInterval(function () {
+                $.ajax({
+                    url: "getValue",
+                    type: "post",
+                    data: {deviceName: deviceName},
+                    success: function (data) {
+                        p.innerText = data;
+                    },
+                    error: function (e) {
+                        p.innerText = "获取信息失败";
+                    }
+                })
+            }
+            , 2000);
+
+        var body = document.getElementById("body");
+        body.appendChild(obj);
+        drag(obj);
+        return p;
+    }
+</script>
+<script>
+    // 添加新设备 按钮的触发事件
+    $(document).ready(function () {
+        $("button").click(function () {
+            var button = $(this).text();
+            var data = {
+                id: "123",
+                name: button,
+            };
+            $.ajax({
+                url: "newDevice",
+                type: "post",
+                data: data,
+                // data: JSON.stringify(data),
+                // contentType:"application/json",
+                success: function (data) {
+                    CreateDevice(button);
+                },
+                error: function (e) {
+                    alert("操作失败");
+                }
+            })
+
+        });
+    });
+</script>
+<script>$(document).ready(function () {
+    $(".box").click(function () {
+        $("p").hide();
+
+
+    })
+})
+
+
+</script>
+</body>
+</html>

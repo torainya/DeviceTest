@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<style>
+    #box1 {
+        background-color: red;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+    }
+
+    #box2 {
+        background-color: red;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        top: 200px;
+        left: 200px;
+    }
+
+    .box {
+        background-color: lime;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        top: 200px;
+        left: 400px;
+    }
+</style>
+
+<div id="box1" class="box">
+    <p id="temp">温度计</p>
+</div>
+<button>温度计</button>
+<button>分贝计</button>
+
+<div id="box2" class="box">
+    <p id="sound">分贝计</p>
+</div>
+<script>
+    // 添加新设备 按钮的触发事件
+    $(document).ready(function () {
+        $("button").click(function () {
+            var button = $(this).text();
+            var data = {
+                id: "123",
+                name: button,
+            };
+            $.ajax({
+                url: "newDevice",
+                type: "post",
+                data: data,
+                // data: JSON.stringify(data),
+                // contentType:"application/json",
+                success: function (data) {
+                    CreateDevice(button);
+                },
+                error: function (e) {
+                    alert("操作失败");
+                }
+            })
+
+        });
+    });
+</script>
+<script>
+    $(".box").mousedown(function (e) {
+// e.pageX
+        var positionDiv = $(this).offset();
+        var distenceX = e.pageX - positionDiv.left;
+        var distenceY = e.pageY - positionDiv.top;
+//alert(distenceX)
+// alert(positionDiv.left);
+
+        $(document).mousemove(function (e) {
+            var x = e.pageX - distenceX;
+            var y = e.pageY - distenceY;
+
+            if (x < 0) {
+                x = 0;
+            } else if (x > $(document).width() - $(".box").outerWidth(true)) {
+                x = $(document).width() - $(".box").outerWidth(true);
+            }
+
+            if (y < 0) {
+                y = 0;
+            } else if (y > $(document).height() - $(".box").outerHeight(true)) {
+                y = $(document).height() - $(".box").outerHeight(true);
+            }
+
+            $(".box").css({
+                'left': x + 'px',
+                'top': y + 'px'
+            });
+        });
+
+        $(document).mouseup(function () {
+            $(document).off('mousemove');
+        });
+    });
+</script>
+</body>
+</html>

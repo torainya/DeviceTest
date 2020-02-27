@@ -1,0 +1,28 @@
+#box1 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+}
+
+#box2 {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+}
+
+.box {
+    background-color: lime;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 200px;
+    left: 400px;
+}
+
+p{
+    text-align: center
+}
