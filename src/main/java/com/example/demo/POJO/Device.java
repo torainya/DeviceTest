@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Device {
-    @Value("123") String id;
+    @Value("123")String id;
     @Value("123")String name;
     @Value("123")String value;
     @Value("123")String state;
@@ -33,12 +33,9 @@ public class Device {
     public Device(String id, String name, String value) {
         this.id = id;
         this.name = name;
-        this.value = name;
+        this.value = value;
     }
     public Device() {
-        this.id = id;
-        this.name = name;
-        this.value = name;
     }
 
     public String getId() {
@@ -55,6 +52,11 @@ public class Device {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void sendPacket(){
+        Packet packet = new Packet();
+
     }
 
 
