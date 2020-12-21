@@ -1,15 +1,15 @@
-package com.example.demo;
+package com.example;
 
-import com.example.demo.POJO.Consumer;
-import com.example.demo.POJO.Packet;
-import com.example.demo.POJO.PacketQueue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 
+@EnableScheduling
 @SpringBootApplication
 @RequestMapping(value = "/")
 public class DeviceTestApplication {
@@ -17,8 +17,7 @@ public class DeviceTestApplication {
     public static void main(String[] args) {
 
         SpringApplication.run(DeviceTestApplication.class, args);
-        PacketQueue packetQueue = new PacketQueue();
-
+        System.out.println("启动成功");
 
     }
 

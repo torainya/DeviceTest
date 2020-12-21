@@ -7,6 +7,7 @@
 
 </head>
 <body id="body">
+
 <div id="box1">
     <p id="temp">温度计</p>
 </div>
@@ -16,6 +17,7 @@
 <div id="box2">
     <p id="sound">分贝计</p>
 </div>
+
 <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 <script>
     var box1 = document.getElementById("box1");
@@ -124,7 +126,33 @@
         return p;
     }
 </script>
-<script>
+<script name = "原始版创建设备">
+    // 添加新设备 按钮的触发事件
+    $(document).ready(function () {
+        $("button").click(function () {
+            var button = $(this).text();
+            var data = {
+                id: "123",
+                name: button,
+            };
+            $.ajax({
+                url: "newDevice",
+                type: "post",
+                data: data,
+                // data: JSON.stringify(data),
+                // contentType:"application/json",
+                success: function (data) {
+                    CreateDevice(button);
+                },
+                error: function (e) {
+                    alert("操作失败");
+                }
+            })
+
+        });
+    });
+</script>
+<script name = "创建路由设备">
     // 添加新设备 按钮的触发事件
     $(document).ready(function () {
         $("button").click(function () {

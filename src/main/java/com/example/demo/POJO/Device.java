@@ -1,16 +1,23 @@
 package com.example.demo.POJO;
 
-
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Device {
-    @Value("123")String id;
-    @Value("123")String name;
-    @Value("123")String value;
-    @Value("123")String state;
+    String mac;
+    @Value("unknown")
+    String name;
+    String ip;
+    @Value("1")
+    String state = "0";
+    String id;
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
     public String getState() {
         return state;
@@ -18,32 +25,6 @@ public class Device {
 
     public void setState(String state) {
         this.state = state;
-    }
-
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-
-    public Device(String id, String name, String value) {
-        this.id = id;
-        this.name = name;
-        this.value = value;
-    }
-    public Device() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -54,10 +35,19 @@ public class Device {
         this.name = name;
     }
 
-    public void sendPacket(){
-        Packet packet = new Packet();
-
+    public String getMac() {
+        return mac;
     }
 
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

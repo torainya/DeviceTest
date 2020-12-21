@@ -1,17 +1,11 @@
 package com.example.demo.POJO;
 
-
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
-@Component
-
-public class Packet {
-    String src;//源地址
-    String dst;//目的地址
-    String name;//包名
-    String value;//变量值
-    int level;//等级
+public class Packet implements Comparable<Packet> {
+    String src;//源地址 ipv4
+    String dst;//目的地址 ipv4
+    int id;//包序号 一般为设备名
+    String value;//变量值 设备发出的示数
+    int level;//等级 优先级等级
 
     public int getLevel() {
         return level;
@@ -21,13 +15,12 @@ public class Packet {
         this.level = level;
     }
 
-
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSrc() {
@@ -52,6 +45,12 @@ public class Packet {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(Packet o) {
+        return o.getLevel() - this.level;
+
     }
 
 
